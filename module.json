@@ -1,0 +1,77 @@
+{
+  "id": "aarons-areas-of-effects",
+  "title": "Aarons Areas of Effects",
+  "version": "1.0.0",
+  "compatibility": {
+    "minimum": "11",
+    "verified": "11"
+  },
+  "relationships": {
+    "requires": [
+      {
+        "id": "advanced-macros",
+        "type": "module",
+        "compatibility": {}
+      },
+      {
+        "id": "ActiveAuras",
+        "type": "module",
+        "compatibility": {}
+      },
+      {
+        "id": "dfreds-convenient-effects",
+        "type": "module",
+        "compatibility": {}
+      },
+      {
+        "id": "token-auras",
+        "type": "module",
+        "compatibility": {}
+      },
+      {
+        "id": "warpgate",
+        "type": "module",
+        "compatibility": {}
+      },
+      {
+        "id": "midi-qol",
+        "type": "module",
+        "compatibility": {}
+      }
+    ],
+    "systems": [
+      {
+        "id": "dnd5e",
+        "type": "system",
+        "compatibility": {}
+      }
+    ]
+  },
+  "authors": [
+    {
+      "name": "Sinantrarion",
+      "discord": "sinantrarion",
+      "flags": {}
+    }
+  ],
+  "packs": [
+    {
+      "name": "template-macros",
+      "label": "Template Macros",
+      "path": "packs/template-macros",
+      "type": "Macro",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "system": "dnd5e",
+      "flags": {}
+    }
+  ],
+  "esmodules": [
+    "/module-data.mjs"
+  ],
+  "manifest": "https://raw.githubusercontent.com/Sinantrarion/aarons-areas-of-effects/master/module.json",
+  "url": "https://github.com/Sinantrarion/aarons-areas-of-effects",
+  "download": "https://github.com/Sinantrarion/aarons-areas-of-effects/archive/refs/heads/main.zip"
+}
