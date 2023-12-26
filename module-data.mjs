@@ -22,14 +22,20 @@ Hooks.on("init", () => {
   Hooks.on('createActiveEffect', onCreateEffect);
   Hooks.on('deleteActiveEffect', onDeleteEffect);
 });
-                        //      Holy--              Holy -              Holy +                Holy++
+//      Holy--              Holy -              Holy +                Holy++
 const ThalergicEffects = ["Thalergic Overload♱", "Meager Thanergy♱", "Bountiful Thanergy♱", "Thanurgic Overload♱"];
-                        //      UnHoly--            UnHoly -            UnHoly +              UnHoly++
+//      UnHoly--            UnHoly -            UnHoly +              UnHoly++
 const ThanurgicEffects = ["Thanurgic Overload⛧", "Meager Thalergy⛧", "Bountiful Thalergy⛧", "Thalergic Overload⛧"];
 
 const VersatileEffects = ["Thanurgic Overload★", "Thalergic Overload★", "Meager Thalergy⛧", "Bountiful Thalergy⛧", "Meager Thanergy♱", "Bountiful Thanergy♱"];
 
-async function onDeleteEffect(effect) {
+const AllEffects = ["Thanurgic Overload★", "Thalergic Overload★",
+                    "Thanurgic Overload⛧", "Thalergic Overload⛧",
+                    "Meager Thalergy⛧", "Bountiful Thalergy⛧",
+                    "Thalergic Overload♱", "Thanurgic Overload♱",
+                    "Meager Thanergy♱", "Bountiful Thanergy♱"];
+
+function onDeleteEffect(effect) {
   var actor = effect.parent;
   if (!effect.flags?.aaron) return;
 
@@ -37,11 +43,11 @@ async function onDeleteEffect(effect) {
   const sorted = aefs.filter(aef => aef.flags?.aaron);
 
   if (sorted.length == 0) {
-    await RemoveVersatile(actor.uuid);
+    RemoveAll(actor.uuid);
   }
 }
 
-async function onCreateEffect(effect) {
+function onCreateEffect(effect) {
   var actor = effect.parent;
   if (actor.flags?.dnd5e?.isNotCaster) return;
   if (actor.flags?.dnd5e?.casterType == undefined) return;
@@ -66,12 +72,22 @@ async function onCreateEffect(effect) {
       break;
 
     case "versatile":
-      await VersatileFunction(totalResult, uuid);
+      VersatileFunction(totalResult, uuid);
       break;
 
     default:
       break;
   }
+}
+
+function RemoveAll(uuid) {
+  AllEffects.forEach(async element => {
+    let hasEffectApplied = await game.dfreds.effectInterface.hasEffectApplied(element, uuid);
+    if (hasEffectApplied) {
+      await game.dfreds.effectInterface.removeEffect({ effectName: element, uuid });
+    }
+  });
+  return null;
 }
 
 function RemoveHoly(uuid) {
@@ -104,80 +120,80 @@ function RemoveVersatile(uuid) {
   return null;
 }
 
-async function HolyFunction(totalResult, uuid) {
+function HolyFunction(totalResult, uuid) {
   switch (totalResult) {
     case 0:
-      await RemoveHoly(uuid);
+      RemoveHoly(uuid);
       break;
     case -2:
-      await RemoveHoly(uuid);
-      await game.dfreds.effectInterface.addEffect({ effectName: ThalergicEffects[0], uuid });
+      RemoveHoly(uuid);
+      game.dfreds.effectInterface.addEffect({ effectName: ThalergicEffects[0], uuid });
       break;
     case -1:
-      await RemoveHoly(uuid);
-      await game.dfreds.effectInterface.addEffect({ effectName: ThalergicEffects[1], uuid });
+      RemoveHoly(uuid);
+      game.dfreds.effectInterface.addEffect({ effectName: ThalergicEffects[1], uuid });
       break;
     case 1:
-      await RemoveHoly(uuid);
-      await game.dfreds.effectInterface.addEffect({ effectName: ThalergicEffects[2], uuid });
+      RemoveHoly(uuid);
+      game.dfreds.effectInterface.addEffect({ effectName: ThalergicEffects[2], uuid });
       break;
     case 2:
-      await RemoveHoly(uuid);
-      await game.dfreds.effectInterface.addEffect({ effectName: ThalergicEffects[3], uuid });
+      RemoveHoly(uuid);
+      game.dfreds.effectInterface.addEffect({ effectName: ThalergicEffects[3], uuid });
       break;
     default:
       return;
   }
 }
 
-async function UnholyFunction(totalResult, uuid) {
+function UnholyFunction(totalResult, uuid) {
   switch (totalResult) {
     case 0:
-      await RemoveUnholy(uuid);
+      RemoveUnholy(uuid);
       break;
     case -2:
-      await RemoveUnholy(uuid);
-      await game.dfreds.effectInterface.addEffect({ effectName: ThanurgicEffects[0], uuid });
+      RemoveUnholy(uuid);
+      game.dfreds.effectInterface.addEffect({ effectName: ThanurgicEffects[0], uuid });
       break;
     case -1:
-      await RemoveUnholy(uuid);
-      await game.dfreds.effectInterface.addEffect({ effectName: ThanurgicEffects[1], uuid });
+      RemoveUnholy(uuid);
+      game.dfreds.effectInterface.addEffect({ effectName: ThanurgicEffects[1], uuid });
       break;
     case 1:
-      await RemoveUnholy(uuid);
-      await game.dfreds.effectInterface.addEffect({ effectName: ThanurgicEffects[2], uuid });
+      RemoveUnholy(uuid);
+      game.dfreds.effectInterface.addEffect({ effectName: ThanurgicEffects[2], uuid });
       break;
     case 2:
-      await RemoveUnholy(uuid);
-      await game.dfreds.effectInterface.addEffect({ effectName: ThanurgicEffects[3], uuid });
+      RemoveUnholy(uuid);
+      game.dfreds.effectInterface.addEffect({ effectName: ThanurgicEffects[3], uuid });
       break;
     default:
       return;
   }
 }
 
-async function VersatileFunction(totalResult, uuid) {
+function VersatileFunction(totalResult, uuid) {
   switch (totalResult) {
     case 0:
       RemoveVersatile(uuid);
       break;
     case -2: // All unholy
       RemoveVersatile(uuid);
-      await game.dfreds.effectInterface.addEffect({ effectName: VersatileEffects[0], uuid });
+      game.dfreds.effectInterface.addEffect({ effectName: VersatileEffects[0], uuid });
       break;
     case -1:
       RemoveVersatile(uuid);
-      await game.dfreds.effectInterface.addEffect({ effectName: ThalergicEffects[2], uuid });
-      await game.dfreds.effectInterface.addEffect({ effectName: ThanurgicEffects[1], uuid });
+      game.dfreds.effectInterface.addEffect({ effectName: ThalergicEffects[2], uuid });
+      game.dfreds.effectInterface.addEffect({ effectName: ThanurgicEffects[1], uuid });
       break;
     case 1:
       RemoveVersatile(uuid);
-      await game.dfreds.effectInterface.addEffect({ effectName: ThalergicEffects[1], uuid });
-      await game.dfreds.effectInterface.addEffect({ effectName: ThanurgicEffects[2], uuid });
+      game.dfreds.effectInterface.addEffect({ effectName: ThalergicEffects[1], uuid });
+      game.dfreds.effectInterface.addEffect({ effectName: ThanurgicEffects[2], uuid });
       break;
     case 2: // All holy
       RemoveVersatile(uuid);
-      await game.dfreds.effectInterface.addEffect({ effectName: VersatileEffects[1], uuid });
+      game.dfreds.effectInterface.addEffect({ effectName: VersatileEffects[1], uuid });
       break;
     default:
       return;
