@@ -1,7 +1,7 @@
 {
   "id": "aarons-areas-of-effects",
   "title": "Aarons Areas of Effects",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "compatibility": {
     "minimum": "11",
     "verified": "11"
@@ -60,6 +60,18 @@
       "label": "Template Macros",
       "path": "packs/template-macros",
       "type": "Macro",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      },
+      "system": "dnd5e",
+      "flags": {}
+    },
+    {
+      "name": "aaron-homebrews",
+      "label": "Homebrews for Aaron's game",
+      "path": "packs/aaron-homebrews",
+      "type": "Item",
       "ownership": {
         "PLAYER": "OBSERVER",
         "ASSISTANT": "OWNER"

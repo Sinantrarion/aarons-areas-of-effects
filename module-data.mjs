@@ -19,8 +19,8 @@ Hooks.on("init", () => {
     }
   }
 
-  Hooks.on('createActiveEffect', onCreateEffect);
-  Hooks.on('deleteActiveEffect', onDeleteEffect);
+  //Hooks.on('createActiveEffect', onCreateEffect);
+  //Hooks.on('deleteActiveEffect', onDeleteEffect);
 });
 //      Holy--              Holy -              Holy +                Holy++
 const ThalergicEffects = ["Thalergic Overload♱", "Meager Thanergy♱", "Bountiful Thanergy♱", "Thanurgic Overload♱"];
